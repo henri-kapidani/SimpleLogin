@@ -1,0 +1,24 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Templates/Template.Master" AutoEventWireup="true" CodeBehind="LoggedTemplate.master.cs" Inherits="SimpleLogin.LoggedTemplate" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="PlaceholderContent" runat="server">
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="Home.aspx">Simple Login</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="Profile.aspx">Profile</a>
+                </li>
+              </ul>
+              <asp:Label ID="LblUsername" runat="server" Text=""></asp:Label>
+              <asp:Button ID="BtnLogout" runat="server" Text="Logout" CssClass="btn btn-outline-success" OnClick="BtnLogout_Click" />
+            </div>
+          </div>
+        </nav>
+    </header>
+    <asp:ContentPlaceHolder ID="PlaceholderMain" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
