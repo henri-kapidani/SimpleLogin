@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -11,15 +13,7 @@ namespace SimpleLogin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // ridirezionare a Home se il cookie è presente
-            // con i cookies
-            //if (Request.Cookies["login"] != null)
-            //{
-            //    Response.Redirect("Home.aspx");
-            //}
-
-            // con la session
-            if (Session["username"] != null)
+            if (Session["UserId"] != null)
             {
                 Response.Redirect("Home.aspx");
             }
@@ -27,18 +21,28 @@ namespace SimpleLogin
 
         protected void BtnLogin_Click(object sender, EventArgs e)
         {
-            // settare il cookie
-            //HttpCookie loginCookie = new HttpCookie("login");
-            //loginCookie["username"] = TxtUsername.Text;
-            //Response.Cookies.Add(loginCookie);
+            string username = TxtUsername.Text;
+            string password = TxtPassword.Text;
 
-            // con la session
-            // settare il campo login nella sessione associata all'utente
-            Session["username"] = TxtUsername.Text;
-
-            // ridirezionare ad home
+            string connString = ConfigurationManager.ConnectionStrings["DbLoginConnectionString"].ToString();
+            SqlConnection conn = new SqlConnection(connString);
+            try
+            {
+                conn.Open();
+                SqlCommand registerUser = new SqlCommand($"select Id from Users where Username='{username}' and Password='{password}'", conn);
+                string UserId = registerUser.ExecuteScalar().ToString();
+                Session["UserId"] = UserId;
+            }
+            catch
+            {
+                Response.Write("qualcosa non va");
+            }
+            finally
+            {
+                conn.Close();
+            }
+            
             Response.Redirect("Home.aspx");
-
         }
     }
 }
